@@ -1,0 +1,372 @@
+FORMAT: 1A
+HOST: http://townreport.apiblueprint.org/
+
+# TownReport API
+
+TownReport API is a simple API allowing citizens to view town problems and report them.
+
+The problems to be considered are those related to basic town facilities, to be categorized (electrical, water-supply, traffic facilities…)
+
+Those responsible for the maintenance of public facilities can allocate resources and track the progress of works.
+
+## Problems Collection [/problems]
+
+A Problem object has the following attributes:
+
++ _id (string) - Problem Id
++ category (string) - Problem category
++ description (string) - Problem description
++ location (array[numbers]) - Location as a pair of coordinates (lng,lat)
++ user (string) - User who registered the problem
++ stateChanges - An array of StateChange objects
++ comments - An array of Comment objects
++ createdAt - An ISO8601 date when the problem was createded
++ updatedAt - An ISO8601 date when the problem state was updated
+
+### List All Problems [GET]
+
+List all problems registered in the system.
+
++ Response 200 (application/json)
+
+        [
+            {
+                "_id": "742365972634897"
+                "category": "ELECTRICAL-POWER",
+                "state": "New",
+                "description": "Streetlamp with broken bulb.",
+                "location": [-5.160000, 36.74747],
+                "user": "username",
+                "createdAt": "2015-08-05T08:40:51.620Z",
+                "updatedAt": "2015-08-05T08:40:51.620Z"
+            }
+        ]
+
+### Create a New Problem [POST]
+
+You may create a new problem using this action. It takes a JSON
+object containing the key data of the new problem.
+
++ category (string) - Problem category
++ description (string) - Problem description
++ location (array[numbers]) - Location as a pair of coordinates (lng,lat)
+
++ Request (application/json)
+    
+    + Headers
+    
+            Authorization: 'Bearer dsfsadfasdfsaddlkjfkkldfsljldjfa'
+    
+    + Body
+    
+            {
+                "category": "ELECTRICAL-POWER",
+                "description": "Streetlamp with broken bulb.",
+                "location": [-5.160000, 36.74747]
+            }
+
++ Response 201 (application/json)
+
+    + Body
+    
+            {
+                "_id": "742365972634897",
+                "category": "ELECTRICAL-POWER",
+                "state": "New",
+                "description": "Streetlamp with broken bulb.",
+                "location": [-5.160000, 36.74747],
+                "user": "username",
+                "stateChanges": [
+                    {
+                        "_id": "8475d41234",
+                        "state": "New",
+                        "user": "username",
+                        "comment": "",
+                        "createdAt": "2015-08-05T08:40:51.620Z"
+                    }
+                ],
+                "comments": [],
+                "createdAt": "2015-08-05T08:40:51.620Z",
+                "updatedAt": "2015-08-05T08:40:51.620Z"
+            }
+
+## Problem [/problems/{problemid}]
+
+A Problem object has the following attributes:
+
++ _id (string) - Problem Id
++ category (string) - Problem category
++ description (string) - Problem description
++ location (array[numbers]) - Location as a pair of coordinates (lng,lat)
++ user (string) - User who registered the problem
++ stateChanges - An array of StateChange objects
++ comments - An array of Comment objects
++ createdAt - An ISO8601 date when the problem was createded
++ updatedAt - An ISO8601 date when the problem state was updated
+
++ Parameters
+    + problemid: 1 (required, string) - ID of the Problem in form of a string
+
+### Problem Detail [GET]
+
+Action to get the details of the problem.
+
++ Response 200 (application/json)
+
+            {
+                "_id": "742365972634897",
+                "category": "ELECTRICAL-POWER",
+                "state": "New",
+                "description": "Streetlamp with broken bulb.",
+                "location": [-5.160000, 36.74747],
+                "user": "username",
+                "stateChanges": [
+                    {
+                        "_id": "8475d41234",
+                        "state": "New",
+                        "user": "username",
+                        "comment": "",
+                        "createdAt": "2015-08-05T08:40:51.620Z"
+                    }
+                ],
+                "comments": [
+                    {
+                        "_id": "84752893578",
+                        "user": "username",
+                        "comment": "Since past friday.",
+                        "createdAt": "2015-08-05T08:41:51.620Z"
+                    }
+                ],
+                "createdAt": "2015-08-05T08:40:51.620Z",
+                "updatedAt": "2015-08-05T08:40:51.620Z"
+            }
+
+### Update Problem Detail [PUT]
+
+Action to update or modify the basic data of a problem.
+
++ Request (application/json)
+    
+    + Headers
+    
+            Authorization: 'Bearer dsfsadfasdfsaddlkjfkkldfsljldjfa'
+    
+    + Body
+
+            {
+                "category": "ELECTRICAL-POWER",
+                "description": "Streetlamp with broken bulb.",
+                "location": [-5.160000, 36.74747]
+            }
+
++ Response 200 (application/json)
+
+            {
+                "_id": "742365972634897",
+                "category": "ELECTRICAL-POWER",
+                "state": "New",
+                "description": "Streetlamp with broken bulb.",
+                "location": [-5.160000, 36.74747],
+                "user": "username",
+                "stateChanges": [
+                    {
+                        "_id": "8475d41234",
+                        "state": "New",
+                        "user": "username",
+                        "comment": "",
+                        "createdAt": "2015-08-05T08:40:51.620Z"
+                    }
+                ],
+                "comments": [
+                    {
+                        "_id": "84752893578",
+                        "user": "username",
+                        "comment": "Since past Friday.",
+                        "createdAt": "2015-08-05T08:40:51.620Z"
+                    }
+                ],
+                "createdAt": "2015-08-05T08:40:51.620Z",
+                "updatedAt": "2015-08-05T08:40:51.620Z"
+            }
+
+### Delete Problem [DELETE]
+
+Action to delete a problem.
+
++ Request
+
+    + Headers
+    
+            Authorization: 'Bearer dsfsadfasdfsaddlkjfkkldfsljldjfa'
+    
++ Response 204
+
+## Comments Collection [/problems/{problemid}/comments]
+
+A Comment object has the following attributes:
+
++ _id (string) - Comment Id
++ user (string) - User who creates the comment
++ comment (string) - Comment text
++ createdAt - An ISO8601 date when the comment was created
+
++ Parameters
+    + problemid: 1 (required, string) - ID of the Problem in form of a string
+
+### Create new Comment [POST]
+
+This action allows to add a new comment to the Problem.
+
++ comment (string) - Comment text
+
++ Request (application/json)
+    
+    + Headers
+    
+            Authorization: 'Bearer dsfsadfasdfsaddlkjfkkldfsljldjfa'
+    
+    + Body
+
+            {
+                "comment": "Third streetlamp with the same problem in last month"
+            }
+            
++ Response 201  (application/json)
+
+    + Body
+            
+            {
+                "_id": "84752893578",
+                "user": "username",
+                "comment": "Third streetlamp with the same problem in last month.",
+                "createdAt": "2015-08-05T08:40:51.620Z"
+            }
+
+## Comment [/problems/{problemid}/comments/{commentid}]
+
+A Comment object has the following attributes:
+
++ _id (string) - Comment Id
++ user (string) - User who creates the comment
++ comment (string) - Comment text
++ createdAt - An ISO8601 date when the comment was created
+
++ Parameters
+    + problemid: 1 (required, string) - ID of the Problem in form of a string
+    + commentid: 1 (required, string) - ID of the Comment in form of a string
+
+### View Comment [GET]
+
++ Response 200 (application/json)
+
+            {
+                "_id": "84752893578",
+                "user": "username",
+                "comment": "Since past friday.",
+                "createdAt": "2015-08-05T08:40:51.620Z"
+            }
+
+### Delete Comment [DELETE]
+
++ Request
+    
+    + Headers
+    
+            Authorization: 'Bearer dsfsadfasdfsaddlkjfkkldfsljldjfa'
+           
++ Response 204
+
+## StateChange Collection [/problems/{problemid}/statechanges]
+
+A StateChange object has the following attributes:
+
++ _id (string) - StateChange Id
++ user (string) - User who updates the state of the Problem
++ state (string) - New state of the Problem
++ comment (string) - Comment text about state change
++ createdAt - An ISO8601 date when the state change was created
+
++ Parameters
+    + problemid: 1 (required, string) - ID of the Problem in form of a string
+
+### Create new StateChange [POST]
+
+This action allows to add a new state change to the Problem (logs de progress of work).
+
++ state (string) - New state of the Problem
++ comment (string) - Comment about state change
+
++ Request (application/json)
+
+    + Headers
+    
+            Authorization: 'Bearer dsfsadfasdfsaddlkjfkkldfsljldjfa'
+    
+    + Body
+
+            {
+                "state": "Pending",
+                "comment": "Accepted and pending on availability of maintenance team."
+            }
+            
++ Response 201  (application/json)
+
+    + Body
+            
+            {
+                "_id": "84752893578",
+                "user": "administrator1",
+                "state": "Pending"
+                "comment": "Accepted and pending on availability of maintenance team.",
+                "createdAt": "2015-08-05T08:40:51.620Z"
+            }
+
+## User registration [/register]
+
+### Register new User [POST]
+
+This action allows to add a new user and logs in to the system.
+
++ username (string) - User name.
++ email (string) - User email.
++ password (string) - User password.
+
++ Request (application/json)
+
+            {
+                "username": "username",
+                "email": "username@gmail.com"
+                "password": "XXXXXXXXXXXX"
+            }
+            
++ Response 200  (application/json)
+
+    + Body
+            
+            {
+                "token": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+            }
+
+## User login [/login]
+
+### Login [POST]
+
+This action allows to get logged in to the system.
+
++ email (string) - User email.
++ password (string) - User password.
+
++ Request (application/json)
+
+            {
+                "email": "username@gmail.com"
+                "password": "XXXXXXXXXXXX"
+            }
+            
++ Response 200  (application/json)
+
+    + Body
+            
+            {
+                "token": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+            }
