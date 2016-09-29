@@ -31,7 +31,7 @@ List all problems registered in the system.
 
         [
             {
-                "_id": "742365972634897"
+                "_id": "742365972634897",
                 "category": "ELECTRICAL-POWER",
                 "state": "New",
                 "description": "Streetlamp with broken bulb.",
@@ -52,7 +52,7 @@ object containing the key data of the new problem.
 + location (array[numbers]) - Location as a pair of coordinates (lng,lat)
 
 + Request (application/json)
-    
+
     + Headers
     
             Authorization: 'Bearer dsfsadfasdfsaddlkjfkkldfsljldjfa'
@@ -315,7 +315,7 @@ This action allows to add a new state change to the Problem (logs de progress of
             {
                 "_id": "84752893578",
                 "user": "administrator1",
-                "state": "Pending"
+                "state": "Pending",
                 "comment": "Accepted and pending on availability of maintenance team.",
                 "createdAt": "2015-08-05T08:40:51.620Z"
             }
@@ -334,7 +334,7 @@ This action allows to add a new user and logs in to the system.
 
             {
                 "username": "username",
-                "email": "username@gmail.com"
+                "email": "username@gmail.com",
                 "password": "XXXXXXXXXXXX"
             }
             
@@ -358,7 +358,7 @@ This action allows to get logged in to the system.
 + Request (application/json)
 
             {
-                "email": "username@gmail.com"
+                "email": "username@gmail.com",
                 "password": "XXXXXXXXXXXX"
             }
             
